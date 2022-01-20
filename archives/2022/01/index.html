@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="zh-CN ">
+<!-- Head Start -->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="keywords"  content="undefined,undefined">
+  <meta name="description" content="-undefined">
+  <meta property="og:locale" content="zh-CN">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Belyache | Blog">
+  <meta property="og:description" content="-undefined">
+  <meta property="og:url" content="http://example.com/archives/2022/01/">
+  <meta property="og:site_name" content="Belyache | Blog">
+  <link rel="shortcut icon" href="/img/avatar/my-avatar.jpg">
+  <title>Belyache | Blog</title>
+  <link rel="canonical" href="http://example.com/archives/2022/01/">
+  
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+
+  
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+  
+<link rel="stylesheet" href="/css/omega.css">
+
+  
+<link rel="stylesheet" href="/css/highlight.css">
+
+  
+<link rel="stylesheet" href="/css/gitalk.min.css">
+
+  
+<link rel="stylesheet" href="/css/kkpager_orange.min.css">
+
+
+  
+<script src="/js/jquery.min.js"></script>
+
+  
+<script src="/js/bootstrap.min.js"></script>
+
+  
+<script src="/js/gitalk.min.js"></script>
+
+  
+<script src="/js/kkpager.min.js"></script>
+
+  
+<script src="/js/button.min.js"></script>
+
+  
+<script src="/js/fastclick.min.js"></script>
+
+  
+<script src="/js/omega.js"></script>
+
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="Bellyache" type="application/atom+xml">
+</head>
+
+<!-- Head End -->
+<body ontouchstart="">
+    <!-- Header Start -->
+     
+        <style type="text/css">
+    header.intro-header {
+        
+            background-image: url('/img/header_img/archive.jpg')
+        
+    }
+</style>
+<header id="intro-header" class="intro-header" >
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="site-heading">
+                        <h1>Bellyache</h1>
+                        <span class="subheading">
+                            
+                                All articles write in 2022
+                            
+                        </span>
+                    </div>
+                
+            </div>
+        </div>
+    </div>
+</header>
+
+     
+    <!-- Header End -->
+
+    <!-- Nav Start -->
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header page-scroll">
+      <button type="button" class="navbar-toggle">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Bellyache</a>
+    </div>
+
+    <div id="blog_navbar">
+      <div class="navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="#" id="search" ><img style="width: 16px;height: 16px;margin: -2px 5px 0px 0;" src="/icons/search.svg " alt="">搜索 </a>
+          </li>
+          <li>
+            <a href="/">首页 </a>
+          </li>
+           
+
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Search Modal -->
+<div class="modal search-modal">
+  <div class="search-container">
+    <div class="search-container-top">
+      <img src="/icons/close.svg" alt="">
+    </div>
+    <input class="search-container-input" placeholder="输入关键字搜索 " type="text">
+    <div class="search-container-content"></div>
+  </div>
+</div>
+
+<script>
+  $('.search-container').css({ "height": window.innerHeight, "overflow": 'hidden' })
+  $('.search-container-content').css({ "height": window.innerHeight - 70, "overflow": 'scroll' })
+  var allArticles = [];
+  var xReq = new XMLHttpRequest();
+  xReq.open('GET', '/search.json');
+  xReq.send();
+  xReq.onreadystatechange = function(){
+    if(xReq.readyState === 4 && xReq.status === 200){
+      allArticles = JSON.parse(xReq.responseText);
+    }
+  }
+
+  $('#search').on('click', function() {
+    document.body.style['overflow-y'] = 'hidden'
+    $('.search-modal').addClass('modal-show');
+  });
+  
+  $('.search-modal,.search-container-top img').on('click', function() {
+    document.body.style['overflow-y'] = 'scroll';
+    $('.search-modal').removeClass('modal-show');
+  });
+  
+  $('.search-container').on('click', function(e) {
+    e.stopPropagation();
+  });
+  
+  $('.search-container-input').bind('input propertychange', function(e) {
+    var searchValue = e.currentTarget.value;
+    var correctArticles = allArticles.filter(article => article.content.toLowerCase().indexOf(searchValue.toLowerCase()) > -1 || article.title.toLowerCase().indexOf(searchValue.toLowerCase()) > -1)
+    var articleListHtml = '';
+    for (let index = 0; index < correctArticles.length; index++) {
+      var article = correctArticles[index];
+      article.description = article.content.replace(/<[^>]+>/g,"");
+      var title = article.title, description = '';
+      var searchReg = RegExp(searchValue, 'i');
+      var searchRegGlobal = RegExp(searchValue, 'ig');
+      if (article.title.match(searchReg)) {
+        title = article.title.replaceAll(searchRegGlobal, `<span class="search-value-active">${searchValue}</span>`);
+      }
+      var contentMatch = article.description.match(searchReg);
+      if (contentMatch) {
+        description = `...${article.description.substr(contentMatch['index'], 210)}...`.replaceAll(searchRegGlobal, `<span class="search-value-active">${searchValue}</span>`);
+      } else {
+        description = article.description.substr(0, 200);
+      }
+
+      articleListHtml += `<div class="search-container-content_item">
+        <a href="${article.url}" class="search-container-content_item-title">${title}</a>
+        <div class="search-container-content_item-description">${description}</div>
+      </div>`
+    }
+
+    $('.search-container-content').html(articleListHtml);
+  });
+  
+</script>
+<script>
+  var $body = document.body;
+  var $toggle = document.querySelector(".navbar-toggle");
+  var $navbar = document.querySelector("#blog_navbar");
+  var $collapse = document.querySelector(".navbar-collapse");
+
+  $toggle.addEventListener("click", handleMagic);
+  function handleMagic(e) {
+    if ($navbar.className.indexOf("in") > 0) {
+      $navbar.className = " ";
+      // wait until animation end.
+      setTimeout(function () {
+        // prevent frequently toggle
+        if ($navbar.className.indexOf("in") < 0) {
+          $collapse.style.height = "0px";
+        }
+      }, 400);
+    } else {
+      $collapse.style.height = "auto";
+      $navbar.className += " in";
+    }
+  }
+</script>
+
+    <!-- Nav End -->
+
+    <!-- Main Content Start -->
+    <div class="main-content content- ">
+        
+<div class="container">
+    <div class="row">
+        <div class="
+            col-lg-8 col-lg-offset-1
+            col-md-8 col-md-offset-1
+            col-sm-12
+            col-xs-12
+            content-container
+        ">
+            <!-- Archive / Tags / Categories  Start -->
+            
+                <!-- Archives Start -->
+                
+    
+                
+                    <div class="one-tag-list">
+                        <span class="fa fa-calendar-times-o listing-seperator" id="2022">
+                            <span class="tag-text">2022</span>
+                        </span>
+                        <ul>
+                        
+                            <li >
+                            01-21
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            <a href="/2022/01/21/first-try-2/" style="color: #0085a1">
+                                <span>
+                                    first-try
+                                </span>
+                            </a>
+                        </li>
+                        
+                            <li >
+                            01-21
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            <a href="/2022/01/21/first-try-1/" style="color: #0085a1">
+                                <span>
+                                    first-try
+                                </span>
+                            </a>
+                        </li>
+                        
+                            <li >
+                            01-21
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            <a href="/2022/01/21/first-try/" style="color: #0085a1">
+                                <span>
+                                    first-try
+                                </span>
+                            </a>
+                        </li>
+                        
+                            <li >
+                            01-21
+                            <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                            <a href="/2022/01/21/hello-world/" style="color: #0085a1">
+                                <span>
+                                    Hello World
+                                </span>
+                            </a>
+                        </li>
+                        
+                        </ul>
+                    </div>
+                 
+                <!-- Archives End -->
+             
+            <!-- Archive / Tags / Categories  End -->
+        </div>
+
+        <!-- Sidebar Start -->
+<div class="
+    col-lg-3 col-lg-offset-0
+    col-md-3 col-md-offset-0
+    col-sm-12
+    col-xs-12
+    sidebar-container
+">
+    
+        <!-- Short About -->
+<h5><a href="/about/">关于 </a></h5>
+<div class="widget short-about">
+    
+        <img id = "avatar_pic" src="/img/header_img/my.jpg" />
+    
+    
+        <p>一万年太久，只争朝夕</p>
+    
+    <ul class="list-inline">
+        
+            <li>
+                <a href="/sitemap.xml">
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-circle fa-stack-2x"></i>
+                    <i class="fa fa-sitemap fa-stack-1x fa-inverse"></i>
+                </span>
+                </a>
+            </li>
+        
+        
+            <li>
+                <a href="/feed.xml">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+        
+        
+        
+            <li>
+                <a target="_blank" href="https://www.zhihu.com/people/kavience-xiaofan">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa  fa-stack-1x fa-inverse">知</i>
+                    </span>
+                </a>
+            </li>
+        
+        
+        
+        
+            <li>
+                <a target="_blank"  href="https://github.com/kavience">
+                    <span class="fa-stack fa-lg">
+                        <i class="fa fa-circle fa-stack-2x"></i>
+                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                    </span>
+                </a>
+            </li>
+        
+        
+    </ul>
+</div>
+
+        <hr>
+    
+        
+  <h5>最近文章</h3>
+  <div class="widget">
+    <ul>
+      
+        <li>
+          <a href="/2022/01/21/first-try-2/">first-try</a>
+        </li>
+      
+        <li>
+          <a href="/2022/01/21/first-try-1/">first-try</a>
+        </li>
+      
+        <li>
+          <a href="/2022/01/21/first-try/">first-try</a>
+        </li>
+      
+        <li>
+          <a href="/2022/01/21/hello-world/">Hello World</a>
+        </li>
+      
+    </ul>
+  </div>
+
+        <hr>
+    
+        
+        <hr>
+    
+        
+    <h5><a href="/archives/">归档</a></h5>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2022/01/">一月 2022</a><span class="archive-list-count">4</span></li></ul>
+    </div>
+
+        <hr>
+    
+        
+        <hr>
+    
+        <div class="widget">
+  <p class="copyright text-muted">
+    Themed by <a target="_blank" rel="noopener" href="https://github.com/kavience/hexo-theme-omega">Omega</a>
+    <br>
+    Refers to <a target="_blank" rel="noopener" href="http://huangxuan.me">Hux</a>
+    <br>
+    <span class="post-count">
+      All posts 83 words altogether</span>
+    <br />
+    Copyright &copy; LZH
+      2022
+        <br>
+        
+  </p>
+</div>
+        <hr>
+    
+</div>
+<!-- Sidebar End -->
+
+    </div>
+</div>
+    </div>
+    <!-- Main Content End -->
+
+    <span id="rocket"></span>
+
+    <!-- Google Analytics -->
+    
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171834825-2" ></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() {
+                dataLayer.push(arguments);
+            }
+            gtag("js", new Date());
+            gtag("config", "UA-171834825-2");
+        </script>
+    
+
+    <!-- Baidu Tongji -->
+    
+
+    <script>
+        // TOC scroll
+        $(".toc-nav-link").bind("click touch", function () {
+            // 根据a标签的href转换为id选择器，获取id元素所处的位置
+            $('html,body').animate({ scrollTop: ($($(this).attr('href')).offset().top) }, 300);
+        });
+    </script>
+</body>
+</html>
