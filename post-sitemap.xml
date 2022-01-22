@@ -9,6 +9,14 @@
 
 
     <url>
+        <loc>http://example.com/2022/01/22/leetcode-1510/</loc>
+        <lastmod>2022-01-22T09:36:50.786Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
         <loc>http://example.com/2022/01/21/first-try/</loc>
         <lastmod>2022-01-20T19:59:52.146Z</lastmod>
         <changefreq>weekly</changefreq>

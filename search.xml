@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>leetcode-1510</title>
+    <url>/2022/01/22/leetcode-1510/</url>
+    <content><![CDATA[<h2 id="题目-石子游戏-IV（困难）"><a href="#题目-石子游戏-IV（困难）" class="headerlink" title="题目 石子游戏 IV（困难）"></a>题目 石子游戏 IV（困难）</h2><p>Alice 和 Bob 两个人轮流玩一个游戏，Alice 先手。</p>
+<p>一开始，有 n 个石子堆在一起。每个人轮流操作，正在操作的玩家可以从石子堆里拿走 任意 非零 平方数 个石子。</p>
+<p>如果石子堆里没有石子了，则无法操作的玩家输掉游戏。</p>
+<p>给你正整数 n ，且已知两个人都采取最优策略。如果 Alice 会赢得比赛，那么返回 True ，否则返回 False 。</p>
+<p>示例 1：</p>
+<p>输入：n = 1<br>输出：true<br>解释：Alice 拿走 1 个石子并赢得胜利，因为 Bob 无法进行任何操作。<br>示例 2：</p>
+<p>输入：n = 2<br>输出：false<br>解释：Alice 只能拿走 1 个石子，然后 Bob 拿走最后一个石子并赢得胜利（2 -&gt; 1 -&gt; 0）。<br>示例 3：</p>
+<p>输入：n = 4<br>输出：true<br>解释：n 已经是一个平方数，Alice 可以一次全拿掉 4 个石子并赢得胜利（4 -&gt; 0）。<br>示例 4：</p>
+<p>输入：n = 7<br>输出：false<br>解释：当 Bob 采取最优策略时，Alice 无法赢得比赛。<br>如果 Alice 一开始拿走 4 个石子， Bob 会拿走 1 个石子，然后 Alice 只能拿走 1 个石子，Bob 拿走最后一个石子并赢得胜利（7 -&gt; 3 -&gt; 2 -&gt; 1 -&gt; 0）。<br>如果 Alice 一开始拿走 1 个石子， Bob 会拿走 4 个石子，然后 Alice 只能拿走 1 个石子，Bob 拿走最后一个石子并赢得胜利（7 -&gt; 6 -&gt; 2 -&gt; 1 -&gt; 0）。<br>示例 5：</p>
+<p>输入：n = 17<br>输出：false<br>解释：如果 Bob 采取最优策略，Alice 无法赢得胜利。</p>
+<p>提示：</p>
+<p>1 &lt;= n &lt;= 10^5</p>
+<h3 id="解题思路"><a href="#解题思路" class="headerlink" title="解题思路"></a>解题思路</h3><p>如果一个状态是必输的状态，那么如果我拿走平方数个石子能让对方到达这个必输状态，那我当前的状态就是必赢；<br>首先初始化，将所有平方数的状态置为必赢,其他为0，更新时跳过这些状态；<br>在一个新的状态下，遍历可移走的平方数，如果移走后是必输状态，当前状态就是必赢，且就是最优解；<br>转移方程为$dp[i] = !dp[i - j^2]$ (只有$dp[i - j^2] == 0$才更新）；</p>
+<p>对于拿走后必赢的策略，不做更新，因为选了等于自己输，要找最优的能让自己赢的。</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight cpp"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> &#123;</span></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="function"><span class="keyword">bool</span> <span class="title">winnerSquareGame</span><span class="params">(<span class="keyword">int</span> n)</span> </span>&#123;</span><br><span class="line">        <span class="function">vector&lt;<span class="keyword">int</span>&gt; <span class="title">dp</span><span class="params">(n + <span class="number">1</span>, <span class="number">0</span>)</span></span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= <span class="built_in">sqrt</span>(n); i++) dp[i*i] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">1</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">if</span>(dp[i] == <span class="number">1</span>) <span class="keyword">continue</span>;</span><br><span class="line">            <span class="keyword">for</span>(<span class="keyword">int</span> j = <span class="number">1</span>; j*j &lt; i; j++) &#123;</span><br><span class="line">                <span class="keyword">if</span>(dp[i - j*j] == <span class="number">0</span>) &#123;</span><br><span class="line">                    dp[i] = <span class="number">1</span>;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;            </span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];       </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+]]></content>
+  </entry>
+  <entry>
+    <title>first-try</title>
+    <url>/2022/01/21/first-try-2/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>first-try</title>
+    <url>/2022/01/21/first-try-1/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>first-try</title>
+    <url>/2022/01/21/first-try/</url>
+    <content><![CDATA[<p>尝试搞个个人网站</p>
+]]></content>
+  </entry>
+  <entry>
     <title>Hello World</title>
     <url>/2022/01/21/hello-world/</url>
     <content><![CDATA[<p>Welcome to <a href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
@@ -16,22 +52,6 @@
 <h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
 
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-]]></content>
-  </entry>
-  <entry>
-    <title>first-try</title>
-    <url>/2022/01/21/first-try-1/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>first-try</title>
-    <url>/2022/01/21/first-try-2/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>first-try</title>
-    <url>/2022/01/21/first-try/</url>
-    <content><![CDATA[<p>尝试搞个个人网站</p>
 ]]></content>
   </entry>
 </search>
